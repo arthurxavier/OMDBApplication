@@ -1,7 +1,9 @@
-package br.com.zup.omdbapplication;
+package br.com.zup.omdbapplication.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import br.com.zup.omdbapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 

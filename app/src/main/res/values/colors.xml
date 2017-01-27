@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="corCustom">#FF1010</color>
+    <color name="corAmarela">#ffea00</color>
+    <color name="corPreta">#d3d3d3</color>
+    <color name="corCinzaclaro">#d3d3d3</color>
+    <color name="corCinza">#FFF59D</color>
+    <color name="corAmarelaBotao">#FFFF00</color>
+    <color name="corAmarelaClaro">#fffde7</color>
 </resources>

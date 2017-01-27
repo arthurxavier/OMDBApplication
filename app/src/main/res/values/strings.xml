@@ -1,3 +1,34 @@
 <resources>
-    <string name="app_name">OMDbApplication</string>
+    <string name="app_name">IMDB</string>
+
+    //Toolbars
+    <string name="act_main">Pesquisa IMDb</string>
+    <string name="act_info">Informacoes</string>
+    <string name="act_saved">Favoritos</string>
+    <string name="ic_return">Voltar</string>
+    <string name="ic_save">Salvar</string>
+    <string name="ic_search">Pesquisar</string>
+
+    //Informacoes
+    <string name="producaoTitulo">Title</string>
+    <string name="producaoAno">Year</string>
+    <string name="producaoClassificacao">Rated</string>
+    <string name="producaoData">Release</string>
+    <string name="producaoDuracao">Runtime</string>
+    <string name="producaoGenero">Genre</string>
+    <string name="producaoDiretores">Director(s)</string>
+    <string name="producaoEscritores">Writer(s)</string>
+    <string name="producaoAtores">Actors</string>
+    <string name="producaoSinopse">Plot</string>
+    <string name="producaoLinguagem">Language</string>
+    <string name="producaoPais">Country</string>
+    <string name="producaoPremios">Awards</string>
+    <string name="producaoMetascore">Metascore</string>
+    <string name="producaoNotaIMDb">IMDb Rating</string>
+    <string name="producaoVotosIMDb">IMDb Votes</string>
+    <string name="producaoIDIMDb">IMDb ID</string>
+    <string name="producaoTipo">Type</string>
+
+    //Botoes
+    <string name="botaoAbrirIMDb">See on IMDb</string>
 </resources>

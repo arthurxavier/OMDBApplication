@@ -13,8 +13,6 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
-import br.com.zup.omdbapplication.ui.VolleyResult;
-
 /**
  * Created by arthur on 26/01/17.
  */

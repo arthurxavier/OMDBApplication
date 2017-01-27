@@ -1,4 +1,4 @@
-package br.com.zup.omdbapplication.ui;
+package br.com.zup.omdbapplication.webservice;
 
 /**
  * Created by arthur on 26/01/17.

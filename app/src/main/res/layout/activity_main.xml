@@ -6,29 +6,5 @@
     android:layout_height="match_parent"
     tools:context="br.com.zup.omdbapplication.activities.MainActivity">
 
-    <TextView
-        android:id="@+id/Ano_Filme"
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ano"
-        android:gravity="center"/>
-
-    <EditText
-        android:id="@+id/NameMovie"
-        android:text="Nome do Filme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"/>
-
-    <Button
-        android:id="@+id/button"
-        android:text="Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Ano_Filme"
-        android:layout_centerHorizontal="true"/>
-
+    
 </RelativeLayout>

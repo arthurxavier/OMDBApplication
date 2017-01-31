@@ -8,9 +8,6 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar_info"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/DimGray"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/act_info" />
@@ -27,7 +24,7 @@
             android:id="@+id/btnSalvar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/DimGray"
+            android:background="@color/dimGray"
             android:text="@string/ic_save" />
 
     </LinearLayout>

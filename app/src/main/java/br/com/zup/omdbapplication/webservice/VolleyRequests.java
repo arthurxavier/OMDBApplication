@@ -17,16 +17,18 @@ import org.json.JSONObject;
  * Created by arthur on 26/01/17.
  */
 
-public class VolleyRequests implements VolleyResult {
+public class VolleyRequests {
 
     private Context context;
 
-    //Construtor
-    public VolleyRequests(Context context)
-    {
+    public VolleyRequests(Context context){
         this.context = context;
     }
 
+    public interface VolleyResult {
+        public void onSucess(Object result);
+        public void onError(VolleyError error);
+    }
 
     public void volleyStringRequest(String url, final VolleyResult result) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -39,7 +41,7 @@ public class VolleyRequests implements VolleyResult {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        result.onError();
+                        result.onError(error);
                     }
                 }
         );
@@ -57,7 +59,7 @@ public class VolleyRequests implements VolleyResult {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        result.onError();
+                        result.onError(error);
                     }
                 }
         );
@@ -75,21 +77,10 @@ public class VolleyRequests implements VolleyResult {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        result.onError();
+                        result.onError(error);
                     }
                 }
         );
         VolleyQueue.getInstance(context).addToRequestQueue(jsonObjectRequest);
-    }
-
-
-    @Override
-    public void onSucess(Object result) {
-
-    }
-
-    @Override
-    public void onError() {
-
     }
 }

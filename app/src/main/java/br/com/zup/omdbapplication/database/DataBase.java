@@ -4,7 +4,7 @@ package br.com.zup.omdbapplication.database;
  * Created by arthur on 26/01/17.
  */
 
-public class DataBase {
+public class DataBase extends Table{
 
     public static final String TITLE = "title";
     public static final String YEAR = "year";

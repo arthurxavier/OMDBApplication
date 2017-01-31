@@ -3,6 +3,7 @@ package br.com.zup.omdbapplication.activities;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,27 +30,24 @@ import java.util.concurrent.ExecutionException;
 
 import br.com.zup.omdbapplication.R;
 import br.com.zup.omdbapplication.adapter.CustomAdapter;
-import br.com.zup.omdbapplication.assynctask.AssyncTaskArray;
 import br.com.zup.omdbapplication.production.Imdb;
 import br.com.zup.omdbapplication.webservice.VolleyRequests;
-import br.com.zup.omdbapplication.webservice.VolleyResult;
 
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private Toolbar toolbar;
     ArrayList<Imdb> list;
-    ProgressDialog mProgress;
+    ProgressDialog load;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.my_toolbar); // Attaching the layout to the toolbar object
-        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
-
+        //Associa a variavel toolbar à my_toolbar no layout
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        //Coloca a toolbar passada por parametro para funcionar como a ActionBar para essa activity
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -64,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             //Usar false torna o icone de busca sempre visivel, o padrao eh true
+            //searchView.setIconifiedByDefault(false);
         }
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 showProgressDialog();
                 callVolley(endereco);
                 return true;
+                //}
             }
 
             @Override
@@ -90,17 +91,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
 
             //O usuario clicou no disquete para salvar a busca feita no BD
-        /*    case R.id.action_save:
-                Intent intent = new Intent(MainActivity.this, SavedActivity.class);
-                startActivity(intent);
+            case R.id.action_save:
+                //Intent intent = new Intent(MainActivity.this, SavedActivity.class);
+                //startActivity(intent);
                 return true;
-        */
+
             //O usuario clicou na lupa para abrir a caixa de pesquisa
             case R.id.action_search:
                 return true;
@@ -113,35 +114,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    private ArrayList<Imdb> callTask(String endereco) {
-        //Cria uma assync task, que executa no plano de fundo do aplicativo
-        AssyncTaskArray task = new AssyncTaskArray(MainActivity.this);
-        //execute faz com que a task execute seus metodos( doInBackground necessario + 2 opcionais)
-        task.execute(endereco);
-
-        try {
-            //retorna uma lista de objetos da classe Imdb
-            return task.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    //helpers
-    private void callVolley(String endereco) {
+    private void callVolley(String endereco){
         VolleyRequests volleyRequests = new VolleyRequests(MainActivity.this);
-        volleyRequests.volleyJsonRequest(endereco, new VolleyResult() {
+        volleyRequests.volleyJsonRequest(endereco, new VolleyRequests.VolleyResult() {
             @Override
             public void onSucess(Object result) {
                 dismissProgressDialog();
-                setList((JSONObject) result);
-                if (list != null) {
+                setList((JSONObject)result);
+                if(list!=null) {
                     fillRecyclerView(list);
                 } else {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.mainLayout), "Filme nao encontrado", Snackbar.LENGTH_LONG);
@@ -149,59 +129,56 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-
             @Override
-            public void onError() {
+            public void onError(VolleyError error) {
                 dismissProgressDialog();
             }
-
         });
     }
 
-    public void callVolleyImage() {
+    public void callVolleyImage(){
         VolleyRequests volleyRequests = new VolleyRequests(MainActivity.this);
-        for (final Imdb imdb : list) {
-            volleyRequests.volleyImageRequest(imdb.getPoster(), new VolleyResult() {
+        for(final Imdb imdb: list){
+            volleyRequests.volleyImageRequest(imdb.getPoster(), new VolleyRequests.VolleyResult() {
                 @Override
                 public void onSucess(Object result) {
-                    imdb.setImagem((Bitmap) result);
+                    imdb.setImagem((Bitmap)result);
                 }
 
                 @Override
-                public void onError() {
-                    imdb.setImagem(BitmapFactory.decodeResource(getResources(), R.drawable.imdb));
+                public void onError(VolleyError error) {
+                    imdb.setImagem(BitmapFactory.decodeResource(getResources(),R.drawable.imdb));
                 }
-
             });
         }
     }
 
-    public void showProgressDialog() {
-        mProgress = ProgressDialog.show(MainActivity.this, "", "Carregando", true);
+    public void setList( JSONObject value){
+        try {
+            JSONArray jsonArray = value.getJSONArray("Search");
+            Gson gson = new Gson();
+            Type collectionType = new TypeToken<ArrayList<Imdb>>(){}.getType();
+            list = gson.fromJson(jsonArray.toString(), collectionType);
+
+            callVolleyImage();
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
-    public void dismissProgressDialog() {
-        mProgress.dismiss();
+    public void showProgressDialog(){
+        load = ProgressDialog.show(MainActivity.this,"","Carregando",true);
     }
 
-    public void fillRecyclerView(ArrayList<Imdb> list) {
+    public void dismissProgressDialog(){
+        load.dismiss();
+    }
+
+    public void fillRecyclerView(ArrayList<Imdb> list){
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listaReciclavel);
         recyclerView.setAdapter(new CustomAdapter(list, MainActivity.this, MainActivity.this));
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 2);
         recyclerView.setLayoutManager(layoutManager);
     }
 
-    public void setList(JSONObject value) {
-        try {
-            JSONArray jsonArray = value.getJSONArray("Search");
-            Gson gson = new Gson();
-            Type collectionType = new TypeToken<ArrayList<Imdb>>() {
-            }.getType();
-            list = gson.fromJson(jsonArray.toString(), collectionType);
-
-            callVolleyImage();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 }

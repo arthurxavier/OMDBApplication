@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorBlue">#3F51B5</color>
+    <color name="colorBlueDark">#303F9F</color>
+    <color name="colorAccentPink">#FF4081</color>
     <color name="corCustom">#FF1010</color>
     <color name="corAmarela">#ffea00</color>
     <color name="corPreta">#d3d3d3</color>
@@ -10,4 +10,10 @@
     <color name="corCinza">#FFF59D</color>
     <color name="corAmarelaBotao">#FFFF00</color>
     <color name="corAmarelaClaro">#fffde7</color>
+    <color name="corBlack">#000</color>
+    <color name="DimGray">#696969</color>
+
+    <color name="colorPrimary">#98FB98</color>
+    <color name="colorPrimaryDark">#2E8B57</color>
+    <color name="colorAccent">#FFFF</color>
 </resources>

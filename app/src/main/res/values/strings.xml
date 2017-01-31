@@ -16,9 +16,9 @@
     <string name="producaoData">Release</string>
     <string name="producaoDuracao">Runtime</string>
     <string name="producaoGenero">Genre</string>
-    <string name="producaoDiretores">Director(s)</string>
+    <string name="producaoDiretores">Director(s):</string>
     <string name="producaoEscritores">Writer(s)</string>
-    <string name="producaoAtores">Actors</string>
+    <string name="producaoAtores">Actors:</string>
     <string name="producaoSinopse">Plot</string>
     <string name="producaoLinguagem">Language</string>
     <string name="producaoPais">Country</string>

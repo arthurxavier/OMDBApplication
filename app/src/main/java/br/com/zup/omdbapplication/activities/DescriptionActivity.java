@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,7 +71,7 @@ public class DescriptionActivity extends AppCompatActivity {
 
         final Button salvar = (Button) findViewById(R.id.btnSalvar);
 
-        if (contexto.equals("class com.example.hugo.projeto_imdb.activity.SavedActivity")) {
+        if (contexto.equals("class activities.DescriptionActivity")) {
             salvar.setText("Remover");
             String campos[] = {
                     CreateDB.tabela.TITLE,
@@ -84,18 +85,19 @@ public class DescriptionActivity extends AppCompatActivity {
                     CreateDB.tabela.PLOT,
                     CreateDB.tabela.LANGUAGE,
                     CreateDB.tabela.POSTER,
+                    CreateDB.tabela.IMDBID,
                     CreateDB.tabela.IMDBRATING,
                     CreateDB.tabela.IMDBID,
             };
             final String where = CreateDB.tabela.IMDBID + "=" + "'" + id + "'";
-            Cursor cursor = banco.CarregaDados(CreateDB.TABELA, campos, where);
+            Cursor cursor = banco.buscaProducao(CreateDB.TABELA, campos, where);
             imdb = setImdbCursor(cursor);
             setView(imdb);
             salvar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    banco.DeletaDados(CreateDB.TABELA, where);
+                    banco.deletarProducao(CreateDB.TABELA, where);
                     Intent intent = new Intent(DescriptionActivity.this, GaleryActivity.class);
                     startActivity(intent);
                     finish();
@@ -124,7 +126,7 @@ public class DescriptionActivity extends AppCompatActivity {
 
 
                     values = DataBase.putValues(mapa, values);
-                    Long resultado = banco.inserirDados(CreateDB.TABELA, values);
+                    Long resultado = banco.inserirProducao(CreateDB.TABELA, values);
                     if (resultado == -1) {
                         try {
                             Toast.makeText(DescriptionActivity.this, "Erro ao adicionar", Toast.LENGTH_SHORT).show();
@@ -144,7 +146,6 @@ public class DescriptionActivity extends AppCompatActivity {
             });
         }
 
-        /*
         Button openIMDb = (Button) findViewById(R.id.buttonOpenIMDb);
         openIMDb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +156,7 @@ public class DescriptionActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        */
+
     }
 
     private void callVolley(String endereco) {
@@ -231,37 +232,39 @@ public class DescriptionActivity extends AppCompatActivity {
         imdb.setRuntime(cursor.getString(4));
         imdb.setGenre(cursor.getString(5));
         imdb.setDirector(cursor.getString(6));
-        imdb.setWriter(cursor.getString(7));
-        imdb.setActors(cursor.getString(8));
-        imdb.setPlot(cursor.getString(9));
-        imdb.setLanguage(cursor.getString(10));
-        imdb.setCountry(cursor.getString(11));
-        imdb.setAwards(cursor.getString(12));
-        imdb.setImagemPath(cursor.getString(13));
-        imdb.setMetascore(cursor.getString(14));
-        imdb.setImdbRating(cursor.getString(15));
-        imdb.setImdbVotes(cursor.getString(16));
-        imdb.setImdbID(cursor.getString(17));
-        imdb.setType(cursor.getString(18));
+        imdb.setActors(cursor.getString(7));
+        imdb.setPlot(cursor.getString(8));
+        imdb.setLanguage(cursor.getString(9));
+        imdb.setImagemPath(cursor.getString(10));
+        imdb.setImdbRating(cursor.getString(11));
+        imdb.setImdbID(cursor.getString(12));
+        imdb.setType(cursor.getString(13));
         return imdb;
     }
 
     private void setView(Imdb imdb) {
+        //Bundle bundle = getIntent().getExtras();
+        //Bitmap bitmap = (Bitmap) bundle.get("image");
+
         TextView tv_Title = (TextView) findViewById(R.id.tv_Title);
         TextView tv_Year = (TextView) findViewById(R.id.tv_Year);
         TextView tv_Rated = (TextView) findViewById(R.id.tv_Rated);
-        TextView tv_Rating = (TextView) findViewById(R.id.tv_Rating);
+        TextView tv_Runtime = (TextView) findViewById(R.id.tv_Runtime);
         TextView tv_Plot = (TextView) findViewById(R.id.tv_Plot);
+        TextView tv_Rating = (TextView) findViewById(R.id.tv_Rating);
+        TextView tv_Actors = (TextView) findViewById(R.id.tv_Actors);
         TextView tv_Directos = (TextView) findViewById(R.id.tv_Directors);
+        //ImageView iv_CardImage = (ImageView) findViewById(R.id.cardImage);
 
-
+        //iv_CardImage.setImageBitmap(bitmap);
         tv_Title.setText(imdb.getTitle());
         tv_Year.setText(imdb.getYear());
         tv_Rated.setText(imdb.getRated());
-        tv_Rating.setText(imdb.getImdbRating());
+        tv_Runtime.setText(imdb.getRuntime());
         tv_Plot.setText(imdb.getPlot());
+        tv_Rating.setText(imdb.getImdbRating());
+        tv_Actors.setText(imdb.getActors());
         tv_Directos.setText(imdb.getDirector());
-
     }
 
     private static String salvarImagem(Bitmap imagem) {
@@ -313,5 +316,7 @@ public class DescriptionActivity extends AppCompatActivity {
         mapa.put(DataBase.POSTER, imdb.getImagemPath());
         mapa.put(DataBase.IMDBRATING, imdb.getImdbRating());
         mapa.put(DataBase.IMDBID, imdb.getImdbID());
+        mapa.put(DataBase.TYPE, imdb.getType());
+
     }
 }

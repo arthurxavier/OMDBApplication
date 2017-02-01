@@ -4,8 +4,7 @@ package br.com.zup.omdbapplication.database;
  * Created by arthur on 26/01/17.
  */
 
-public class DataBase extends Table{
-
+public class DataBase extends Table {
     public static final String TITLE = "title";
     public static final String YEAR = "year";
     public static final String RATED = "rated";
@@ -16,14 +15,12 @@ public class DataBase extends Table{
     public static final String ACTORS = "actors";
     public static final String PLOT = "plot";
     public static final String LANGUAGE = "language";
-    public static final String IMAGE = "image";
-    public static final String IMDBID = "IMDBID";
-    public static final String IMDBRATING = "imdbRating";
     public static final String POSTER = "poster";
-
+    public static final String IMDBRATING = "imdbrating";
+    public static final String IMDBID = "_id";
+    public static final String TYPE = "type";
 
     public String campos() {
-
         return TITLE + " text,"
                 + YEAR + " text,"
                 + RATED + " text,"
@@ -34,11 +31,9 @@ public class DataBase extends Table{
                 + ACTORS + " text,"
                 + PLOT + " text,"
                 + LANGUAGE + " text,"
-                + IMDBID + " text PRIMARY KEY,"
+                + POSTER + " text,"
                 + IMDBRATING + " text,"
-                + IMAGE + " BLOB,"
-                + POSTER + " text";
+                + IMDBID + " text PRIMARY KEY,"
+                + TYPE + " text";
     }
-
-
 }

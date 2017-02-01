@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
             //O usuario clicou no disquete para salvar a busca feita no BD
             case R.id.action_save:
-                //Intent intent = new Intent(MainActivity.this, SavedActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, GaleryActivity.class);
+                startActivity(intent);
                 return true;
 
             //O usuario clicou na lupa para abrir a caixa de pesquisa

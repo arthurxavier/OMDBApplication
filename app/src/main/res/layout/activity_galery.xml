@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/my_toolbar_saved"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:background="@color/dimGray"/>
 
 
 </RelativeLayout>

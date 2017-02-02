@@ -31,7 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import br.com.zup.omdbapplication.R;
 import br.com.zup.omdbapplication.database.ControllerDB;
@@ -70,8 +69,7 @@ public class DescriptionActivity extends AppCompatActivity {
 
 
         final Button salvar = (Button) findViewById(R.id.btnSalvar);
-
-        if (contexto.equals("class activities.DescriptionActivity")) {
+        if (contexto.equals("class br.com.zup.omdbapplication.activities.GaleryActivity")) {
             salvar.setText("Remover");
             String campos[] = {
                     CreateDB.tabela.TITLE,
@@ -85,9 +83,9 @@ public class DescriptionActivity extends AppCompatActivity {
                     CreateDB.tabela.PLOT,
                     CreateDB.tabela.LANGUAGE,
                     CreateDB.tabela.POSTER,
-                    CreateDB.tabela.IMDBID,
                     CreateDB.tabela.IMDBRATING,
                     CreateDB.tabela.IMDBID,
+                    CreateDB.tabela.TYPE,
             };
             final String where = CreateDB.tabela.IMDBID + "=" + "'" + id + "'";
             Cursor cursor = banco.buscaProducao(CreateDB.TABELA, campos, where);
@@ -98,7 +96,7 @@ public class DescriptionActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     banco.deletarProducao(CreateDB.TABELA, where);
-                    Intent intent = new Intent(DescriptionActivity.this, GaleryActivity.class);
+                    Intent intent = new Intent(DescriptionActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -106,7 +104,6 @@ public class DescriptionActivity extends AppCompatActivity {
         } else {
             showProgressDialog();
             salvar.setText("Salvar");
-            //imdb = callTask("http://www.omdbapi.com/?i=" + id);
             callVolley("http://www.omdbapi.com/?i=" + id);
             salvar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,6 +111,7 @@ public class DescriptionActivity extends AppCompatActivity {
                     String caminho = new String();
                     //se a producao nao tem poster, nao salva a imagem do imdb no bd
                     if (!imdb.getPoster().equals("N/A")) {
+
                         caminho = salvarImagem(imdb.getImagem());
                         imdb.setImagemPath(caminho);
                     }
@@ -122,9 +120,6 @@ public class DescriptionActivity extends AppCompatActivity {
                     Map<String, String> mapa = new HashMap<String, String>();
                     preencherMapa(mapa, imdb);
                     ContentValues values = new ContentValues();
-
-
-
                     values = DataBase.putValues(mapa, values);
                     Long resultado = banco.inserirProducao(CreateDB.TABELA, values);
                     if (resultado == -1) {
@@ -182,6 +177,7 @@ public class DescriptionActivity extends AppCompatActivity {
             @Override
             public void onSucess(Object result) {
                 imdb.setImagem((Bitmap) result);
+                setView(imdb);
             }
 
             @Override
@@ -243,9 +239,6 @@ public class DescriptionActivity extends AppCompatActivity {
     }
 
     private void setView(Imdb imdb) {
-        //Bundle bundle = getIntent().getExtras();
-        //Bitmap bitmap = (Bitmap) bundle.get("image");
-
         TextView tv_Title = (TextView) findViewById(R.id.tv_Title);
         TextView tv_Year = (TextView) findViewById(R.id.tv_Year);
         TextView tv_Rated = (TextView) findViewById(R.id.tv_Rated);
@@ -254,9 +247,8 @@ public class DescriptionActivity extends AppCompatActivity {
         TextView tv_Rating = (TextView) findViewById(R.id.tv_Rating);
         TextView tv_Actors = (TextView) findViewById(R.id.tv_Actors);
         TextView tv_Directos = (TextView) findViewById(R.id.tv_Directors);
-        //ImageView iv_CardImage = (ImageView) findViewById(R.id.cardImage);
+        ImageView iv_cardImageDescription = (ImageView) findViewById(R.id.iv_cardImageDescription);
 
-        //iv_CardImage.setImageBitmap(bitmap);
         tv_Title.setText(imdb.getTitle());
         tv_Year.setText(imdb.getYear());
         tv_Rated.setText(imdb.getRated());
@@ -265,6 +257,7 @@ public class DescriptionActivity extends AppCompatActivity {
         tv_Rating.setText(imdb.getImdbRating());
         tv_Actors.setText(imdb.getActors());
         tv_Directos.setText(imdb.getDirector());
+        iv_cardImageDescription.setImageBitmap(imdb.getImagem());
     }
 
     private static String salvarImagem(Bitmap imagem) {

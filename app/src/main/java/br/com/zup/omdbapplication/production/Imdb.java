@@ -36,6 +36,7 @@ public class Imdb {
         this.Year = year;
         this.imagemPath = imagem;
 
+
         //se o filme nao tem poster, o caminho gerado eh null, logo preenchemos com a imagem base
         if (imagem==null){
             this.setImagem(BitmapFactory.decodeResource(Contexto.context().getResources(), R.drawable.imdb));

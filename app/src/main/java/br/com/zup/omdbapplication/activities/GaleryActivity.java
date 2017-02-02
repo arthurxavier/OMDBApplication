@@ -1,5 +1,6 @@
 package br.com.zup.omdbapplication.activities;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -59,7 +60,6 @@ public class GaleryActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listaReciclavelSalvos);
         recyclerView.setAdapter(new CustomAdapter(lista,this,this));
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,2);
-        //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
     }
 
@@ -71,6 +71,10 @@ public class GaleryActivity extends AppCompatActivity {
 
             case android.R.id.home:
                 finish();
+
+                //Teste
+                Intent intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

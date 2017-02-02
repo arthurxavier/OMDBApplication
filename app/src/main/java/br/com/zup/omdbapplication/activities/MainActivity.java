@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         //Coloca a toolbar passada por parametro para funcionar como a ActionBar para essa activity
         setSupportActionBar(toolbar);
+        
     }
 
     @Override
@@ -70,14 +71,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Esconde o teclado
-                searchView.clearFocus();
+                //searchView.clearFocus();
                 //Pega o titulo pesquisado. Se for mais de um nome ele troca espaços por + (ex.: the flash -> the+flash)
                 String titulo = searchView.getQuery().toString().replace(' ', '+');
                 //Esse endereco retorna uma lista com os filmes que contenham a pesquisa em seu titulo
                 String endereco = "http://www.omdbapi.com/?s=" + titulo;
                 //Cria uma thread para fazer a pesquisa
+                //ArrayList<Imdb> lista = callTask(endereco);
                 showProgressDialog();
                 callVolley(endereco);
+
+                /*if (list == null) {
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.mainLayout), "Filme nao encontrado", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    return false;
+                } else {
+                    //Associa a variavel recyclerView à listaReciclavel no layout
+                    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listaReciclavel);
+                    //Cria um adapter custom com a lista resultado da pesquisae entao preenche a lista reciclavel
+                    recyclerView.setAdapter(new CustomRecyclerAdapter(list, MainActivity.this, MainActivity.this));
+                    //Cria um layout grid e define como o layout da lista reciclavel
+                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 2);
+                    recyclerView.setLayoutManager(layoutManager);*/
                 return true;
                 //}
             }
@@ -113,7 +128,25 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    /*
+        private ArrayList<Imdb> callTask(String endereco) {
+            //Cria uma assync task, que executa no plano de fundo do aplicativo
+            AssyncTaskArray task = new AssyncTaskArray(MainActivity.this);
+            //execute faz com que a task execute seus metodos( doInBackground necessario + 2 opcionais)
+            task.execute(endereco);
 
+            try {
+                //retorna uma lista de objetos da classe Imdb
+                return task.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return null;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    */
     private void callVolley(String endereco){
         VolleyRequests volleyRequests = new VolleyRequests(MainActivity.this);
         volleyRequests.volleyJsonRequest(endereco, new VolleyRequests.VolleyResult() {

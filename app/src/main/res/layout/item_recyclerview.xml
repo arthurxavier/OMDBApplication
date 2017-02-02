@@ -10,13 +10,38 @@
     card_view:cardUseCompatPadding="true">
 
 
-        <ImageView
-        android:id="@+id/cardImage"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/dimGray"
-        android:scaleType="centerCrop" />
+        android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/cardImage"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/dimGray"
+            android:scaleType="centerCrop" />
 
+        <TextView
+            android:id="@+id/cardTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/cardImage"
+            android:background="@color/dimGray"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/cardAno"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/cardTitulo"
+            android:background="@color/dimGray"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="13sp" />
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

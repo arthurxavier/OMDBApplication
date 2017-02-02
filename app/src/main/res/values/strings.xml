@@ -3,7 +3,7 @@
 
     //Toolbars
     <string name="act_main">Pesquisa IMDb</string>
-    <string name="act_info">Informacoes</string>
+    <string name="act_info">Informações</string>
     <string name="act_saved">Favoritos</string>
     <string name="ic_return">Voltar</string>
     <string name="ic_save">Salvar</string>

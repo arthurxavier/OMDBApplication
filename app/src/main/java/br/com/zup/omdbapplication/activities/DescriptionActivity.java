@@ -67,10 +67,11 @@ public class DescriptionActivity extends AppCompatActivity {
         String id = bundle.getString("imdb");
         String contexto = bundle.getString("contexto");
 
-
+        final ImageView image = (ImageView) findViewById(R.id.iv_cardImageDescription);
         final Button salvar = (Button) findViewById(R.id.btnSalvar);
         if (contexto.equals("class br.com.zup.omdbapplication.activities.GaleryActivity")) {
             salvar.setText("Remover");
+            image.setVisibility(View.GONE);
             String campos[] = {
                     CreateDB.tabela.TITLE,
                     CreateDB.tabela.YEAR,
@@ -104,6 +105,7 @@ public class DescriptionActivity extends AppCompatActivity {
         } else {
             showProgressDialog();
             salvar.setText("Salvar");
+            image.setVisibility(View.VISIBLE);
             callVolley("http://www.omdbapi.com/?i=" + id);
             salvar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -115,8 +117,6 @@ public class DescriptionActivity extends AppCompatActivity {
                         caminho = salvarImagem(imdb.getImagem());
                         imdb.setImagemPath(caminho);
                     }
-                    //ContentValues values = new ContentValues();
-                    //IMDbDatabase.putValues(values,imdb);
                     Map<String, String> mapa = new HashMap<String, String>();
                     preencherMapa(mapa, imdb);
                     ContentValues values = new ContentValues();
@@ -203,7 +203,6 @@ public class DescriptionActivity extends AppCompatActivity {
         load.dismiss();
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -217,7 +216,6 @@ public class DescriptionActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     private Imdb setImdbCursor(Cursor cursor) {
         Imdb imdb = new Imdb();

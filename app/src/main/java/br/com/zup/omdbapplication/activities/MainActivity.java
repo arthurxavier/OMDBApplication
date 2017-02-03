@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import br.com.zup.omdbapplication.R;
 import br.com.zup.omdbapplication.adapter.CustomAdapter;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         //Coloca a toolbar passada por parametro para funcionar como a ActionBar para essa activity
         setSupportActionBar(toolbar);
-        
+
     }
 
     @Override
@@ -63,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            //Usar false torna o icone de busca sempre visivel, o padrao eh true
-            //searchView.setIconifiedByDefault(false);
         }
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
@@ -76,25 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 String titulo = searchView.getQuery().toString().replace(' ', '+');
                 //Esse endereco retorna uma lista com os filmes que contenham a pesquisa em seu titulo
                 String endereco = "http://www.omdbapi.com/?s=" + titulo;
-                //Cria uma thread para fazer a pesquisa
                 //ArrayList<Imdb> lista = callTask(endereco);
                 showProgressDialog();
                 callVolley(endereco);
-
-                /*if (list == null) {
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.mainLayout), "Filme nao encontrado", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    return false;
-                } else {
-                    //Associa a variavel recyclerView à listaReciclavel no layout
-                    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listaReciclavel);
-                    //Cria um adapter custom com a lista resultado da pesquisae entao preenche a lista reciclavel
-                    recyclerView.setAdapter(new CustomRecyclerAdapter(list, MainActivity.this, MainActivity.this));
-                    //Cria um layout grid e define como o layout da lista reciclavel
-                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 2);
-                    recyclerView.setLayoutManager(layoutManager);*/
                 return true;
-                //}
+
             }
 
             @Override
@@ -128,25 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    /*
-        private ArrayList<Imdb> callTask(String endereco) {
-            //Cria uma assync task, que executa no plano de fundo do aplicativo
-            AssyncTaskArray task = new AssyncTaskArray(MainActivity.this);
-            //execute faz com que a task execute seus metodos( doInBackground necessario + 2 opcionais)
-            task.execute(endereco);
-
-            try {
-                //retorna uma lista de objetos da classe Imdb
-                return task.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return null;
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    */
     private void callVolley(String endereco){
         VolleyRequests volleyRequests = new VolleyRequests(MainActivity.this);
         volleyRequests.volleyJsonRequest(endereco, new VolleyRequests.VolleyResult() {
